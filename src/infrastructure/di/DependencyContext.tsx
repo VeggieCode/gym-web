@@ -1,21 +1,26 @@
 import React, { createContext, useContext } from 'react';
 import type { PlanRepository } from '../../domain/repositories/PlanRepository';
 // Importamos la implementación real (la única vez que lo haremos)
-import { planApi } from '../api/PlanApi';
+import { PlanApi } from '../api/PlanApi';
+import { RoutineApi } from '../api/RoutineApi.ts';
+import type {RoutineRepository} from "../../domain/repositories/RoutineRepository.ts";
 
 // 1. Definimos qué servicios estarán disponibles en nuestra app
 interface Dependencies {
-    planRepository: PlanRepository;
+    planRepository: PlanApi;
+    routineRepository: RoutineApi;
 }
+
+const dependencies: Dependencies = {
+    planRepository: new PlanApi(),
+    routineRepository: new RoutineApi()
+};
 
 // 2. Creamos el Contexto
 const DependencyContext = createContext<Dependencies | null>(null);
 
 // 3. Creamos el Provider (el componente que envuelve la app)
 export const DependencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const dependencies: Dependencies = {
-        planRepository: planApi,
-    };
 
     return (
         <DependencyContext.Provider value={dependencies}>
