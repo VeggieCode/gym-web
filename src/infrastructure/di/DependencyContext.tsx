@@ -1,14 +1,15 @@
 import React, { createContext, useContext } from 'react';
-import type { PlanRepository } from '../../domain/repositories/PlanRepository';
 // Importamos la implementación real (la única vez que lo haremos)
 import { PlanApi } from '../api/PlanApi';
 import { RoutineApi } from '../api/RoutineApi.ts';
+
+import type { PlanRepository } from '../../domain/repositories/PlanRepository';
 import type {RoutineRepository} from "../../domain/repositories/RoutineRepository.ts";
 
 // 1. Definimos qué servicios estarán disponibles en nuestra app
 interface Dependencies {
-    planRepository: PlanApi;
-    routineRepository: RoutineApi;
+    planRepository: PlanRepository;
+    routineRepository: RoutineRepository;
 }
 
 const dependencies: Dependencies = {
@@ -25,7 +26,7 @@ export const DependencyProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return (
         <DependencyContext.Provider value={dependencies}>
             {children}
-            </DependencyContext.Provider>
+        </DependencyContext.Provider>
     );
 };
 

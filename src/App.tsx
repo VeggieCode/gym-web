@@ -12,16 +12,19 @@ function App() {
 
     return (
         <div style={{ padding: '40px', fontFamily: 'sans-serif', maxWidth: '800px', margin: '0 auto' }}>
-            <h1>Dashboard del Gimnasio 💪</h1>
+            <h1>Gym Admin - Clean Architecture</h1>
 
             <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
-                <div style={{ flex: 1, minWidth: '300px' }}>
+                <div style={{ flex: 1, minWidth: '500px' }}>
                     <RoutineForm />
                 </div>
                 <div style={{ flex: 1, minWidth: '300px' }}>
                     <PlanForm onPlanCreado={recargarLista}/>
                 </div>
             </div>
+
+            <hr style={{ margin: '40px 0' }} />
+
             <h2>Planes Activos</h2>
             {/* Le pasamos el callback al PlanList */}
             <PlanList key={refreshKey} onPlanArchivado={recargarLista} />

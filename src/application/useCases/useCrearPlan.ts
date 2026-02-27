@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDependencies } from '../../infrastructure/di/DependencyContext';
 
-// Sin parámetros
 export const useCrearPlan = () => {
     const [loading, setLoading] = useState(false);
     const [errorDomain, setErrorDomain] = useState<{ tipo: string; mensaje: string } | null>(null);
