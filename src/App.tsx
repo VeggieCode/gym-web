@@ -1,29 +1,16 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { AuthProvider, useAuth } from './application/context/AuthContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './application/context/AuthContext';
 import { ProtectedRoute } from './presentation/components/ProtectedRoute';
 import { Login } from './presentation/pages/Login';
 import { PlanList } from './presentation/components/PlanList';
 import { PlanForm } from './presentation/components/PlanForm';
 import { RoutineForm } from './presentation/components/RoutineForm';
 import {useState} from "react";
-
-// Un componente de navegación simple
-const Navbar = () => {
-    const { user, logout } = useAuth();
-    return (
-        <nav style={{ padding: '10px', background: '#333', color: 'white', display: 'flex', gap: '15px' }}>
-            <Link to="/" style={{ color: 'white' }}>Inicio</Link>
-            {user?.role === 'dueño' && <Link to="/crear-plan" style={{ color: 'white' }}>Crear Plan</Link>}
-            <Link to="/crear-rutina" style={{ color: 'white' }}>Crear Rutina</Link>
-            <div style={{ marginLeft: 'auto' }}>
-                Hola, {user?.name} ({user?.role}) | <button onClick={logout}>Salir</button>
-            </div>
-        </nav>
-    );
-};
+import {MainLayout} from "./presentation/layouts/MainLayout.tsx";
+import {AuthLayout} from "./presentation/layouts/AuthLayout.tsx";
 
 function App() {
-    const [refreshKey, setRefreshKey] = useState(0);
+    const [_refreshKey, setRefreshKey] = useState(0);
     const recargarLista = () => {
         setRefreshKey((prev) => prev + 1);
     };
@@ -32,19 +19,38 @@ function App() {
         <AuthProvider>
             <BrowserRouter>
                 <Routes>
-                    {/* Rutas Públicas */}
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/no-autorizado" element={<h2 style={{padding: '20px'}}>❌ No tienes permisos de dueño.</h2>} />
-
-                    {/* Rutas Protegidas Generales (Cualquier usuario logueado) */}
-                    <Route element={<ProtectedRoute />}>
-                        <Route path="/" element={<><Navbar /><div style={{padding: '20px'}}><PlanList onPlanArchivado={recargarLista}/></div></>} />
-                        <Route path="/crear-rutina" element={<><Navbar /><div style={{padding: '20px'}}><RoutineForm /></div></>} />
+                    {/* ==========================================
+                        RUTAS DE AUTENTICACIÓN (Split Screen)
+                        ========================================== */}
+                    <Route element={<AuthLayout />}>
+                        <Route path="/login" element={<Login />} />
+                        {/* <Route path="/registro" element={<Register />} /> <-- ¡Listo para el futuro! */}
                     </Route>
 
-                    {/* Rutas Protegidas de Autorización Estricta (Solo DUEÑOS) */}
-                    <Route element={<ProtectedRoute requiredRole="dueño" />}>
-                        <Route path="/crear-plan" element={<><Navbar /><div style={{padding: '20px'}}><PlanForm onPlanCreado={recargarLista}/></div></>} />
+                    {/* ==========================================
+                    RUTAS CON LAYOUT PRINCIPAL (Con Navbar y Padding)
+                    ========================================== */}
+                    <Route element={<MainLayout />}>
+
+                        {/* Cualquier usuario autenticado */}
+                        <Route element={<ProtectedRoute />}>
+                            <Route path="/" element={<PlanList  onPlanArchivado={recargarLista}/>} />
+                            <Route path="/crear-rutina" element={<RoutineForm />} />
+                        </Route>
+
+                        {/* Solo dueños */}
+                        <Route element={<ProtectedRoute requiredRole="dueño" />}>
+                            <Route path="/crear-plan" element={<PlanForm  onPlanCreado={recargarLista}/>} />
+                        </Route>
+
+                        {/* Pantalla de error de permisos, pero manteniendo el Navbar para que pueda navegar */}
+                        <Route path="/no-autorizado" element={
+                            <div style={{ textAlign: 'center', marginTop: '50px' }}>
+                                <h2 style={{ color: '#e74c3c' }}>❌ Acceso Denegado</h2>
+                                <p>No tienes permisos de dueño para ver esta sección.</p>
+                            </div>
+                        } />
+
                     </Route>
 
                 </Routes>
