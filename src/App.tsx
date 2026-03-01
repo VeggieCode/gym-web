@@ -1,34 +1,61 @@
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './application/context/AuthContext';
+import { ProtectedRoute } from './presentation/components/ProtectedRoute';
+import { Login } from './presentation/pages/Login';
 import { PlanList } from './presentation/components/PlanList';
 import { PlanForm } from './presentation/components/PlanForm';
-import {RoutineForm} from "./presentation/components/RoutineForm.tsx";
+import { RoutineForm } from './presentation/components/RoutineForm';
+import {useState} from "react";
+import {MainLayout} from "./presentation/layouts/MainLayout.tsx";
+import {AuthLayout} from "./presentation/layouts/AuthLayout.tsx";
 
 function App() {
-    const [refreshKey, setRefreshKey] = useState(0);
-
+    const [_refreshKey, setRefreshKey] = useState(0);
     const recargarLista = () => {
         setRefreshKey((prev) => prev + 1);
     };
 
     return (
-        <div style={{ padding: '40px', fontFamily: 'sans-serif', maxWidth: '800px', margin: '0 auto' }}>
-            <h1>Gym Admin - Clean Architecture</h1>
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    {/* ==========================================
+                        RUTAS DE AUTENTICACIÓN (Split Screen)
+                        ========================================== */}
+                    <Route element={<AuthLayout />}>
+                        <Route path="/login" element={<Login />} />
+                        {/* <Route path="/registro" element={<Register />} /> <-- ¡Listo para el futuro! */}
+                    </Route>
 
-            <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
-                <div style={{ flex: 1, minWidth: '500px' }}>
-                    <RoutineForm />
-                </div>
-                <div style={{ flex: 1, minWidth: '300px' }}>
-                    <PlanForm onPlanCreado={recargarLista}/>
-                </div>
-            </div>
+                    {/* ==========================================
+                    RUTAS CON LAYOUT PRINCIPAL (Con Navbar y Padding)
+                    ========================================== */}
+                    <Route element={<MainLayout />}>
 
-            <hr style={{ margin: '40px 0' }} />
+                        {/* Cualquier usuario autenticado */}
+                        <Route element={<ProtectedRoute />}>
+                            <Route path="/" element={<PlanList  onPlanArchivado={recargarLista}/>} />
+                            <Route path="/crear-rutina" element={<RoutineForm />} />
+                        </Route>
 
-            <h2>Planes Activos</h2>
-            {/* Le pasamos el callback al PlanList */}
-            <PlanList key={refreshKey} onPlanArchivado={recargarLista} />
-        </div>
+                        {/* Solo dueños */}
+                        <Route element={<ProtectedRoute requiredRole="dueño" />}>
+                            <Route path="/crear-plan" element={<PlanForm  onPlanCreado={recargarLista}/>} />
+                        </Route>
+
+                        {/* Pantalla de error de permisos, pero manteniendo el Navbar para que pueda navegar */}
+                        <Route path="/no-autorizado" element={
+                            <div style={{ textAlign: 'center', marginTop: '50px' }}>
+                                <h2 style={{ color: '#e74c3c' }}>❌ Acceso Denegado</h2>
+                                <p>No tienes permisos de dueño para ver esta sección.</p>
+                            </div>
+                        } />
+
+                    </Route>
+
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 
