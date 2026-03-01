@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '../../domain/entities/User';
-import { AuthApi } from '../../infrastructure/api/AuthApi';
 import {useDependencies} from "../../infrastructure/di/DependencyContext.tsx";
 
 interface AuthContextProps {

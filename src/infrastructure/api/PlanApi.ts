@@ -1,4 +1,3 @@
-import axios from 'axios';
 import type { Plan } from '../../domain/entities/Plan';
 import type { PlanRepository } from '../../domain/repositories/PlanRepository';
 import { PlanMapper } from '../mappers/PlanMapper';
