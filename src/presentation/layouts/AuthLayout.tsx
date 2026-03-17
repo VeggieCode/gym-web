@@ -1,9 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import fondoImg from '../../assets/vertical_gym_person.jpg';
+import {theme} from "../design-system/theme.ts";
 export const AuthLayout: React.FC = () => {
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#ffffff' }}>
+        <div style={{ display: 'flex', width: '100%', minHeight: '100vh', overflow: 'hidden', backgroundColor: theme.colors.background.base }}>
 
             {/* Mitad Izquierda: Branding / Imagen Inspiracional */}
             <div style={{
@@ -31,20 +32,12 @@ export const AuthLayout: React.FC = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '40px',
-                backgroundColor: '#f8f9fa'
+                padding: '0.625rem',
             }}>
-                <div style={{
-                    width: '100%',
-                    maxWidth: '400px',
-                    background: 'white',
-                    padding: '40px',
-                    borderRadius: '12px',
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
-                }}>
+
                     {/* Aquí React Router inyectará <Login /> o <Register /> */}
                     <Outlet />
-                </div>
+
             </div>
 
         </div>

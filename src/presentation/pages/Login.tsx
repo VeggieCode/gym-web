@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../application/context/AuthContext';
 import {Button} from "../components/Button.tsx";
-import {Input} from "../components/Input.tsx";
-import {theme} from "../design-system/theme.ts";
+import {InputGroup} from "../components/InputGroup.tsx";
 
 export const Login: React.FC = () => {
     const [email, setEmail] = useState('admin@tlatoltech.com.mx');
@@ -25,33 +24,44 @@ export const Login: React.FC = () => {
 
     return (
         <div>
-            <h2 style={{ margin: '0 0 20px 0', color: '#2c3e50', fontSize: '1.8rem' }}>Bienvenido de vuelta</h2>
-            <p style={{ color: '#7f8c8d', marginBottom: '30px' }}>Ingresa tus credenciales para acceder a tu panel.</p>
+            {/* Título de la app */}
+            <div className="text-center mb-4">
+                <h1 className="text-3xl font-heading font-bold text-text-primary">
+                    Bienvenido al Gimnasio
+                </h1>
+                <p className="text-text-secondary mt-2">
+                    Ingresa tus credenciales para continuar
+                </p>
+            </div>
 
-            {error && (
-                <div style={{ background: '#fee2e2', color: '#ef4444', padding: '12px', borderRadius: '6px', marginBottom: '20px', fontSize: '0.9rem' }}>
-                    {error}
-                </div>
-            )}
+            {/* Formulario */}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-md">
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.lg }}>
-                <Input
-                    label="Correo Electrónico"
+                <InputGroup
+                    label="Correo electrónico"
                     type="email"
                     value={email}
+                    placeholder="tu@correo.com"
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="ejemplo@gym.com"
+                    required
+                    error={error}
                 />
-                <Input
+
+                <InputGroup
                     label="Contraseña"
                     type="password"
+                    placeholder="••••••••"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    required
+                    error={error}
                 />
-                <Button type="submit">
-                    Iniciar Sesión
-                </Button>
+
+                <div className="mt-4">
+                    <Button type="submit" isFullWidth>
+                        Iniciar Sesión
+                    </Button>
+                </div>
             </form>
         </div>
     );

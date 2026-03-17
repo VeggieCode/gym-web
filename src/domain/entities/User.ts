@@ -1,4 +1,5 @@
 export class User {
+    // @ts-ignore
     constructor(
         public id: number,
         public name: string,

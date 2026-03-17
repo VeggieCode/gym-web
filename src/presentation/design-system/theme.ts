@@ -1,24 +1,37 @@
 export const theme = {
     colors: {
+        // Primitives
+        orange: {
+            500: '#FF5722',
+            600: '#E64A19'
+        },
+        gray: {
+            400: '#B0BEC5',
+            800: '#1E1E1E',
+            900: '#121212'
+        },
+        red: {
+            500: '#EF4444'
+        },
+        white: '#FFFFFF',
+
+        // Semantics (Los que usaremos en los componentes)
         primary: {
-            main: '#3498db',
-            hover: '#2980b9'
+            main: '#FF5722',   // primary-main
+            hover: '#E64A19'   // primary-hover
         },
         background: {
-            main: '#f5f6fa',
-            paper: '#ffffff',
-            dark: '#2c3e50'
+            base: '#121212',   // bg-base (Fondo principal)
+            surface: '#1E1E1E' // bg-surface (Tarjetas, Inputs, NavBar)
         },
         text: {
-            primary: '#2c3e50',
-            secondary: '#7f8c8d',
-            inverse: '#ffffff'
+            primary: '#FFFFFF', // text-primary
+            secondary: '#B0BEC5'// text-secondary
         },
         error: {
-            main: '#ef4444',
-            bg: '#fee2e2'
+            main: '#EF4444'     // error-main
         },
-        border: '#cbd5e1'
+        border: 'rgba(176, 190, 197, 0.15)' // Borde sutil para tarjetas
     },
     spacing: {
         sm: '8px',
@@ -27,7 +40,11 @@ export const theme = {
         xl: '32px'
     },
     borderRadius: {
-        md: '6px',
-        lg: '12px'
+        md: '8px',
+        full: '999px'
+    },
+    elevation: {
+        level1: '0 4px 8px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.05)',
+        level2: '0 8px 16px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.1)'
     }
 };
