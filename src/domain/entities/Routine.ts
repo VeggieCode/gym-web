@@ -1,6 +1,7 @@
 import { Exercise } from './Exercise';
 
 export class Routine {
+    // @ts-ignore
     constructor(
         public readonly name: string,
         public readonly assignedDays: string[],

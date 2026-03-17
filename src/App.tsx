@@ -8,6 +8,10 @@ import { RoutineForm } from './presentation/components/RoutineForm';
 import {useState} from "react";
 import {MainLayout} from "./presentation/layouts/MainLayout.tsx";
 import {AuthLayout} from "./presentation/layouts/AuthLayout.tsx";
+import {DesignTokens} from "./presentation/pages/DesignTokens.tsx";
+import {ComponentsPreview} from "./presentation/pages/ComponentsPreview.tsx";
+import {RoutineExecution} from "./presentation/pages/RoutineExecution.tsx";
+import RoutineCreation from "./presentation/pages/RoutineCreation.tsx";
 
 function App() {
     const [_refreshKey, setRefreshKey] = useState(0);
@@ -25,7 +29,11 @@ function App() {
                     <Route element={<AuthLayout />}>
                         <Route path="/login" element={<Login />} />
                         {/* <Route path="/registro" element={<Register />} /> <-- ¡Listo para el futuro! */}
+
                     </Route>
+
+                    <Route path="/routine-creation" element={
+                        <RoutineCreation/>} />
 
                     {/* ==========================================
                     RUTAS CON LAYOUT PRINCIPAL (Con Navbar y Padding)
@@ -49,6 +57,18 @@ function App() {
                                 <h2 style={{ color: '#e74c3c' }}>❌ Acceso Denegado</h2>
                                 <p>No tienes permisos de dueño para ver esta sección.</p>
                             </div>
+                        } />
+
+                        <Route path="/tokens" element={
+                            <DesignTokens />
+                        } />
+
+                        <Route path="/preview" element={
+                            <ComponentsPreview />
+                        } />
+
+                        <Route path="/routine-execution" element={
+                            <RoutineExecution />
                         } />
 
                     </Route>

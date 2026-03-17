@@ -1,4 +1,5 @@
 export class Exercise {
+    // @ts-ignore
     constructor(
         public readonly name: string,
         public readonly sets: number,

@@ -1,5 +1,6 @@
 import { useGetPlanes } from '../../application/useCases/useGetPlanes';
 import { useArchivarPlan } from '../../application/useCases/useArchivarPlan';
+import {theme} from "../design-system/theme.ts";
 
 interface Props {
     onPlanArchivado: () => void;
@@ -32,7 +33,7 @@ export const PlanList = ({ onPlanArchivado }: Props) => {
 
             <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
                 {planes.map((plan) => (
-                    <div key={plan.id} style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', minWidth: '200px' }}>
+                    <div key={plan.id} style={{ backgroundColor: theme.colors.background.surface, border: '1px solid #ccc', padding: '20px', borderRadius: '8px', minWidth: '200px' }}>
                         <h3 style={{ marginTop: 0 }}>{plan.nombre}</h3>
                         <p><strong>Nivel:</strong> {plan.nivel}</p>
                         <p><strong>Precio:</strong> ${plan.precio}</p>
